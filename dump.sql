@@ -198,7 +198,7 @@ CREATE TABLE `studentconnectquestionsanswers` (
   CONSTRAINT `answer_id1` FOREIGN KEY (`answer_id`) REFERENCES `answers` (`answer_id`),
   CONSTRAINT `pair_answer_id` FOREIGN KEY (`pair_answer_id`) REFERENCES `answers` (`answer_id`),
   CONSTRAINT `student_id2` FOREIGN KEY (`student_id`) REFERENCES `students` (`student_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -207,6 +207,7 @@ CREATE TABLE `studentconnectquestionsanswers` (
 
 LOCK TABLES `studentconnectquestionsanswers` WRITE;
 /*!40000 ALTER TABLE `studentconnectquestionsanswers` DISABLE KEYS */;
+INSERT INTO `studentconnectquestionsanswers` VALUES (1,12,66,67,'2019-12-16 18:27:34.000000'),(2,12,68,71,'2019-12-16 18:27:34.000000'),(3,12,70,69,'2019-12-16 18:27:34.000000');
 /*!40000 ALTER TABLE `studentconnectquestionsanswers` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -228,7 +229,7 @@ CREATE TABLE `studentopenquestionanswers` (
   KEY `question_id_idx` (`question_id`),
   CONSTRAINT `question_id0` FOREIGN KEY (`question_id`) REFERENCES `questions` (`question_id`),
   CONSTRAINT `student_id1` FOREIGN KEY (`student_id`) REFERENCES `students` (`student_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -237,6 +238,7 @@ CREATE TABLE `studentopenquestionanswers` (
 
 LOCK TABLES `studentopenquestionanswers` WRITE;
 /*!40000 ALTER TABLE `studentopenquestionanswers` DISABLE KEYS */;
+INSERT INTO `studentopenquestionanswers` VALUES (1,2,3,'Structured Query Language','2019-12-16 07:05:13.000000'),(2,3,3,'Create Update Read Delete','2019-12-16 07:05:13.000000');
 /*!40000 ALTER TABLE `studentopenquestionanswers` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -292,6 +294,7 @@ CREATE TABLE `studentscourses` (
 
 LOCK TABLES `studentscourses` WRITE;
 /*!40000 ALTER TABLE `studentscourses` DISABLE KEYS */;
+INSERT INTO `studentscourses` VALUES (1,8,NULL),(3,5,NULL),(6,6,NULL),(12,7,NULL);
 /*!40000 ALTER TABLE `studentscourses` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -312,7 +315,7 @@ CREATE TABLE `studentstests` (
   KEY `test_id_idx` (`test_id`),
   CONSTRAINT `student_id3` FOREIGN KEY (`student_id`) REFERENCES `students` (`student_id`),
   CONSTRAINT `test_id1` FOREIGN KEY (`test_id`) REFERENCES `tests` (`test_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -321,6 +324,7 @@ CREATE TABLE `studentstests` (
 
 LOCK TABLES `studentstests` WRITE;
 /*!40000 ALTER TABLE `studentstests` DISABLE KEYS */;
+INSERT INTO `studentstests` VALUES (1,1,10,NULL),(2,1,11,NULL),(4,3,1,NULL),(5,3,2,NULL),(6,3,3,NULL),(7,6,4,NULL),(8,6,5,NULL),(9,6,6,NULL),(10,12,7,NULL),(11,12,8,NULL),(12,12,9,NULL),(14,1,8,NULL);
 /*!40000 ALTER TABLE `studentstests` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -341,7 +345,7 @@ CREATE TABLE `studenttestanswers` (
   KEY `answer_id_idx` (`answer_id`),
   CONSTRAINT `answer_id` FOREIGN KEY (`answer_id`) REFERENCES `answers` (`answer_id`),
   CONSTRAINT `student_id` FOREIGN KEY (`student_id`) REFERENCES `students` (`student_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -350,7 +354,39 @@ CREATE TABLE `studenttestanswers` (
 
 LOCK TABLES `studenttestanswers` WRITE;
 /*!40000 ALTER TABLE `studenttestanswers` DISABLE KEYS */;
+INSERT INTO `studenttestanswers` VALUES (1,3,51,'2019-12-16 18:59:48.000000');
 /*!40000 ALTER TABLE `studenttestanswers` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `studenttruefalseanswers`
+--
+
+DROP TABLE IF EXISTS `studenttruefalseanswers`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+ SET character_set_client = utf8mb4 ;
+CREATE TABLE `studenttruefalseanswers` (
+  `student_true_false_answer_id` int(32) NOT NULL AUTO_INCREMENT,
+  `student_id` int(32) NOT NULL,
+  `question_id` int(32) NOT NULL,
+  `answer` tinyint(4) NOT NULL,
+  `submited_time` timestamp(6) NOT NULL,
+  PRIMARY KEY (`student_true_false_answer_id`),
+  KEY `student_id_idx` (`student_id`),
+  KEY `question_id_idx` (`question_id`),
+  CONSTRAINT `question_id3` FOREIGN KEY (`question_id`) REFERENCES `questions` (`question_id`),
+  CONSTRAINT `student_id4` FOREIGN KEY (`student_id`) REFERENCES `students` (`student_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `studenttruefalseanswers`
+--
+
+LOCK TABLES `studenttruefalseanswers` WRITE;
+/*!40000 ALTER TABLE `studenttruefalseanswers` DISABLE KEYS */;
+INSERT INTO `studenttruefalseanswers` VALUES (1,1,9,1,'2019-12-16 19:37:38.000000');
+/*!40000 ALTER TABLE `studenttruefalseanswers` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -389,4 +425,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-12-15 19:22:27
+-- Dump completed on 2019-12-18 22:55:53
