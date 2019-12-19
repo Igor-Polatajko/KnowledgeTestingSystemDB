@@ -124,43 +124,61 @@ answer_id | answer_content
 87 |	ALTER
 
 
-###### 8. Check student answer for open type question (id 2):
+###### 8. Check student's (id 3) answer for open type question (id 2):
 ```sql
-SELECT studentopenquestionanswers.question_id, answer AS student_answer, answer_content AS correct_answer FROM studentopenquestionanswers 
+SELECT student_id, studentopenquestionanswers.question_id, answer AS student_answer, answer_content AS correct_answer
+FROM studentopenquestionanswers 
 JOIN answers ON studentopenquestionanswers.question_id = answers.question_id
-WHERE studentopenquestionanswers.question_id = 2
+WHERE studentopenquestionanswers.question_id = 2 AND student_id = 3
 ```
 
-question_id | student_answer | correct_answer
-|---|---|---|
-2 |	Structured Query Language |	Structured Query Language
+student_id | question_id | student_answer | correct_answer
+|---|---|---|---|
+3 | 2 |	Structured Query Language |	Structured Query Language
 
 
-###### 9. Check student answer for test type question (id 13):
+###### 9. Check student's (id 8) answer for test type question (id 13):
 ```sql
-SELECT studenttestanswers.question_id, studenttestanswers.answer_id AS student_answer, answers.answer_id AS correct_answer FROM studenttestanswers 
+SELECT student_id, studenttestanswers.question_id, studenttestanswers.answer_id AS student_answer, answers.answer_id AS correct_answer FROM studenttestanswers 
 RIGHT JOIN answers ON studenttestanswers.question_id = answers.question_id
-WHERE studenttestanswers.question_id = 13 AND answers.is_right = true 
+WHERE studenttestanswers.question_id = 13 AND answers.is_right = true AND student_id = 8
 ```
-question_id | student_answer | correct_answer
-|---|---|---|
-13 |	80 |	79
+student_id | question_id | student_answer | correct_answer
+|---|---|---|---|
+8 | 13 |	80 |	79
 
 
-###### 10. Check student answer for connect type question (id 14):
+###### 10. Check student's (id 8) answer for connect type question (id 14):
 ```sql
-SELECT connectquestionsanswers.answer_id, studentconnectquestionsanswers.pair_answer_id AS student_pair_choice,
+SELECT student_id, connectquestionsanswers.question_id, connectquestionsanswers.answer_id, studentconnectquestionsanswers.pair_answer_id AS student_pair_choice,
 connectquestionsanswers.correct_pair_answer_id AS correct_pair FROM connectquestionsanswers
 JOIN studentconnectquestionsanswers ON studentconnectquestionsanswers.answer_id = connectquestionsanswers.answer_id
-WHERE connectquestionsanswers.question_id = 14
+WHERE connectquestionsanswers.question_id = 14  AND student_id = 8
 ```
 
-answer_id | student_pair_choice |correct_pair_answer_id
-|---|---|---|
-82 |	83 |	83
-84 |	87 |	85
-86 |	85 |	87
+student_id | question_id | answer_id | student_pair_choice |correct_pair_answer_id
+|---|---|---|---|---|
+8 | 14 | 82 |	83 |	83
+8 | 14 | 84 |	87 |	85
+8 | 14 | 86 |	85 |	87
 
+
+###### 11. Check student's (id 1) answer for true-false type question (id 9):
+```sql
+SELECT student_id, studenttruefalseanswers.question_id,
+CASE WHEN studenttruefalseanswers.answer = 1 THEN 
+    "TRUE" 
+ELSE 
+    "FALSE"
+END AS student_answer, 
+answers.answer_content AS correct_answer FROM studenttruefalseanswers 
+JOIN answers ON studenttruefalseanswers.question_id = answers.question_id
+WHERE studenttruefalseanswers.question_id = 9 AND student_id = 1
+```
+
+student_id | question_id | student_answer | correct_answer
+|---|---|---|---|
+1 | 9 |	TRUE |	TRUE
 
 ### Triggers
 **DB contains two triggers to synchronize tables StudentsCourses and StudentsTests**
