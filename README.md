@@ -180,6 +180,10 @@ student_id | question_id | student_answer | correct_answer
 |---|---|---|---|
 1 | 9 |	TRUE |	TRUE
 
+
+<br/>
+**_Note:_** if there was more than 
+
 ### Triggers
 **DB contains two triggers to synchronize tables StudentsCourses and StudentsTests**
 

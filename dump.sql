@@ -288,7 +288,7 @@ DROP TABLE IF EXISTS `studentscourses`;
 CREATE TABLE `studentscourses` (
   `student_id` int(32) NOT NULL,
   `course_id` int(32) NOT NULL,
-  `completed_date` datetime DEFAULT NULL,
+  `completed_date` timestamp(6) DEFAULT NULL,
   KEY `student_id_idx` (`student_id`),
   KEY `course_id_idx` (`course_id`),
   CONSTRAINT `course_id0` FOREIGN KEY (`course_id`) REFERENCES `courses` (`course_id`),
@@ -343,7 +343,8 @@ CREATE TABLE `studentstests` (
   `students_test_id` int(32) NOT NULL AUTO_INCREMENT,
   `student_id` int(32) NOT NULL,
   `test_id` int(32) NOT NULL,
-  `completed_date` datetime DEFAULT NULL,
+  `max_attempts_allowed` INT NULL DEFAULT 3,
+  `last_completed_date` timestamp(6) DEFAULT NULL,
   PRIMARY KEY (`students_test_id`),
   KEY `student_id_idx` (`student_id`),
   KEY `test_id_idx` (`test_id`),
