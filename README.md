@@ -101,9 +101,8 @@ answer_id | answer_content | is_right
 ##### 7. Select all answers for the connection type question (id 14)
 **Left side answers**
 ```sql
-SELECT answer_id, answer_content FROM answers WHERE question_id = 14
-AND answer_id IN
-(SELECT answer_id FROM connectquestionsanswers)
+SELECT answer_id, answer_content FROM answers WHERE answer_id IN
+(SELECT answer_id FROM connectquestionsanswers WHERE question_id = 14)
 ```
 
 answer_id | answer_content
@@ -114,9 +113,8 @@ answer_id | answer_content
 
 **Right side answers**
 ```sql
-SELECT answer_id, answer_content FROM answers WHERE question_id = 14
-AND answer_id IN
-(SELECT correct_pair_answer_id FROM connectquestionsanswers)
+SELECT answer_id, answer_content FROM answers WHERE answer_id IN
+(SELECT correct_pair_answer_id FROM connectquestionsanswers WHERE question_id = 14)
 ```
 
 answer_id | answer_content
@@ -137,5 +135,28 @@ question_id | student_answer | correct_answer
 |---|---|---|
 2 |	Structured Query Language |	Structured Query Language
 
-##### 8. Check student answer for test type question (id 13):
 
+##### 9. Check student answer for test type question (id 13):
+```sql
+SELECT studenttestanswers.question_id, studenttestanswers.answer_id AS student_answer, answers.answer_id AS correct_answer FROM studenttestanswers 
+RIGHT JOIN answers ON studenttestanswers.question_id = answers.question_id
+WHERE studenttestanswers.question_id = 13 AND answers.is_right = true 
+```
+question_id | student_answer | correct_answer
+|---|---|---|
+13 |	80 |	79
+
+
+##### 10. Check student answer for connect type question (id 14):
+```sql
+SELECT connectquestionsanswers.answer_id, studentconnectquestionsanswers.pair_answer_id AS student_pair_choice,
+connectquestionsanswers.correct_pair_answer_id AS correct_pair FROM connectquestionsanswers
+JOIN studentconnectquestionsanswers ON studentconnectquestionsanswers.answer_id = connectquestionsanswers.answer_id
+WHERE connectquestionsanswers.question_id = 14
+```
+
+answer_id | student_pair_choice |correct_pair_answer_id
+|---|---|---|
+82 |	83 |	83
+84 |	87 |	85
+86 |	85 |	87

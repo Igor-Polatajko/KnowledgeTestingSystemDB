@@ -39,7 +39,7 @@ CREATE TABLE `answers` (
 
 LOCK TABLES `answers` WRITE;
 /*!40000 ALTER TABLE `answers` DISABLE KEYS */;
-INSERT INTO `answers` VALUES (51,1,'Cache',1),(52,1,'Hard drive',1),(53,2,'Structured Query Language',0),(54,3,'Create Read Update Delete',0),(55,4,'one-to-one',1),(56,4,'multiple-to-zero',0),(57,4,'parent-to-child',0),(58,4,'one-to-many',1),(59,4,'container-to-data',0),(60,4,'many-to-many',1),(61,5,'127.0.0.1',0),(62,6,'JSON Database Comunication',0),(63,6,'Java Database Conectivity',1),(64,6,'JavaDatabase Comunication',0),(65,7,'Java Management Extention',0),(66,8,'@RestController',0),(67,8,'Presentation',0),(68,8,'@Sevice',0),(69,8,'Business logic',0),(70,8,'@Repository',0),(71,8,'Data access',0),(72,9,'TRUE',0),(73,10,'TRUE',0),(74,11,'Remote Procedure Call',0),(75,12,'Distributed event streaming platform',1),(76,12,'Message queue',0),(77,12,'Database',0),(78,13,'DDL',0),(79,13,'DML',1),(80,13,'DCL',1),(81,13,'DQL',0),(82,14,'INSERT',0),(83,14,'UPDATE',0),(84,14,'COMMIT',0),(85,14,'ROLL BACK',0),(86,14,'CREATE',0),(87,14,'ALTER',0);
+INSERT INTO `answers` VALUES (51,1,'Cache',1),(52,1,'Hard drive',1),(53,2,'Structured Query Language',0),(54,3,'Create Read Update Delete',0),(55,4,'one-to-one',1),(56,4,'multiple-to-zero',0),(57,4,'parent-to-child',0),(58,4,'one-to-many',1),(59,4,'container-to-data',0),(60,4,'many-to-many',1),(61,5,'127.0.0.1',0),(62,6,'JSON Database Comunication',0),(63,6,'Java Database Conectivity',1),(64,6,'JavaDatabase Comunication',0),(65,7,'Java Management Extention',0),(66,8,'@RestController',0),(67,8,'Presentation',0),(68,8,'@Sevice',0),(69,8,'Business logic',0),(70,8,'@Repository',0),(71,8,'Data access',0),(72,9,'TRUE',0),(73,10,'TRUE',0),(74,11,'Remote Procedure Call',0),(75,12,'Distributed event streaming platform',1),(76,12,'Message queue',0),(77,12,'Database',0),(78,13,'DDL',0),(79,13,'DML',1),(80,13,'DCL',0),(81,13,'DQL',0),(82,14,'INSERT',0),(83,14,'UPDATE',0),(84,14,'COMMIT',0),(85,14,'ROLL BACK',0),(86,14,'CREATE',0),(87,14,'ALTER',0);
 /*!40000 ALTER TABLE `answers` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -204,7 +204,7 @@ CREATE TABLE `studentconnectquestionsanswers` (
   CONSTRAINT `pair_answer_id` FOREIGN KEY (`pair_answer_id`) REFERENCES `answers` (`answer_id`),
   CONSTRAINT `student_id2` FOREIGN KEY (`student_id`) REFERENCES `students` (`student_id`),
   CONSTRAINT `studentconnectquestionsanswers_ibfk_1` FOREIGN KEY (`question_id`) REFERENCES `questions` (`question_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -213,7 +213,7 @@ CREATE TABLE `studentconnectquestionsanswers` (
 
 LOCK TABLES `studentconnectquestionsanswers` WRITE;
 /*!40000 ALTER TABLE `studentconnectquestionsanswers` DISABLE KEYS */;
-INSERT INTO `studentconnectquestionsanswers` VALUES (1,12,66,67,'2019-12-16 18:27:34.000000',8),(2,12,68,71,'2019-12-16 18:27:34.000000',8),(3,12,70,69,'2019-12-16 18:27:34.000000',8);
+INSERT INTO `studentconnectquestionsanswers` VALUES (1,12,66,67,'2019-12-16 18:27:34.000000',8),(2,12,68,71,'2019-12-16 18:27:34.000000',8),(3,12,70,69,'2019-12-16 18:27:34.000000',8),(4,8,82,83,'2019-12-19 00:58:33.000000',14),(5,8,84,87,'2019-12-19 00:58:33.000000',14),(7,8,86,85,'2019-12-19 01:01:53.000000',14);
 /*!40000 ALTER TABLE `studentconnectquestionsanswers` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -345,8 +345,8 @@ CREATE TABLE `studenttestanswers` (
   `result_id` int(32) NOT NULL AUTO_INCREMENT,
   `student_id` int(32) NOT NULL,
   `answer_id` int(32) NOT NULL,
-  `question_id` int(32) NOT NULL,
   `submited_time` timestamp(6) NOT NULL,
+  `question_id` int(32) NOT NULL,
   PRIMARY KEY (`result_id`),
   KEY `student_id_idx` (`student_id`),
   KEY `answer_id_idx` (`answer_id`),
@@ -434,4 +434,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-12-19  2:33:47
+-- Dump completed on 2019-12-19  3:08:21
