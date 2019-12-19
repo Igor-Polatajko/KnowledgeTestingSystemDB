@@ -176,13 +176,30 @@ JOIN answers ON studenttruefalseanswers.question_id = answers.question_id
 WHERE studenttruefalseanswers.question_id = 9 AND student_id = 1
 ```
 
+
 student_id | question_id | student_answer | correct_answer
 |---|---|---|---|
 1 | 9 |	TRUE |	TRUE
 
 
-<br/>
-**_Note:_** if there was more than 
+###### 12. Check student's (id 1) answer for true-false type question (id 9) - multiple student answers:
+```sql
+SELECT student_id, studenttruefalseanswers.question_id,
+CASE WHEN studenttruefalseanswers.answer = 1 THEN 
+    "TRUE" 
+ELSE 
+    "FALSE"
+END AS student_answer, 
+answers.answer_content AS correct_answer, submitted_time FROM studenttruefalseanswers 
+JOIN answers ON studenttruefalseanswers.question_id = answers.question_id
+WHERE studenttruefalseanswers.question_id = 10 AND student_id = 5
+ORDER BY submitted_time ASC
+```
+student_id | question_id | student_answer | correct_answer | submitted_time
+|---|---|---|---|---|
+5 |	10 |	FALSE |	TRUE |	2019-12-18 16:28:54.000000
+5 |	10 |	TRUE |	TRUE |	2019-12-19 16:27:51.000000
+5 |	10 |	FALSE |	TRUE |	2019-12-20 16:28:43.000000
 
 ### Triggers
 **DB contains two triggers to synchronize tables StudentsCourses and StudentsTests**
