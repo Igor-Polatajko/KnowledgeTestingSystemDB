@@ -73,7 +73,8 @@ SELECT tests.test_id, topic_title FROM tests
 JOIN studentstests
 ON tests.test_id = studentstests.test_id
 WHERE student_id = 8
-AND (SELECT COUNT(*) FROM testattempts WHERE testattempts.students_test_id = studentstests.students_test_id) = 0
+AND (SELECT COUNT(*) FROM testattempts 
+WHERE testattempts.students_test_id = studentstests.students_test_id) = 0
 ```
 
 test_id | topic_title
@@ -141,7 +142,8 @@ answer_id | answer_content
 
 ###### 9. Check student's (id 3) answer for open type question (id 2):
 ```sql
-SELECT student_id, studentopenquestionanswers.question_id, answer AS student_answer, answer_content AS correct_answer
+SELECT student_id, studentopenquestionanswers.question_id, answer AS student_answer,
+answer_content AS correct_answer
 FROM studentopenquestionanswers 
 JOIN answers ON studentopenquestionanswers.question_id = answers.question_id
 WHERE studentopenquestionanswers.question_id = 2 AND student_id = 3
@@ -153,21 +155,41 @@ student_id | question_id | student_answer | correct_answer
 
 
 ###### 10. Check student's (id 8) answer for test type question (id 13):
+**Student answer**
 ```sql
-SELECT student_id, studenttestanswers.question_id, studenttestanswers.answer_id AS student_answer, answers.answer_id AS correct_answer FROM studenttestanswers 
-RIGHT JOIN answers ON studenttestanswers.question_id = answers.question_id
-WHERE studenttestanswers.question_id = 13 AND answers.is_right = true AND student_id = 8
+SELECT student_id, question_id, answer_id AS student_answer FROM studenttestanswers 
+WHERE question_id = 13 AND student_id = 8
 ```
-student_id | question_id | student_answer | correct_answer
-|---|---|---|---|
-8 | 13 |	80 |	79
+
+student_id | question_id | answer_id
+|---|---|---|
+8 |	13 |	81
+8 |	13 |	79
+
+
+**Right answer**
+```sql
+SELECT question_id, answer_id AS right_answer FROM answers 
+WHERE question_id = 13 AND answers.is_right = true
+```
+
+question_id | right_answer
+|---|---|
+13 | 79
+13 | 80
+
+
+<u>This solution is used here, because test type questions is generics (can be one or more than one right answers)</u>
 
 
 ###### 11. Check student's (id 8) answer for connect type question (id 14):
 ```sql
-SELECT student_id, connectquestionsanswers.question_id, connectquestionsanswers.answer_id, studentconnectquestionsanswers.pair_answer_id AS student_pair_choice,
-connectquestionsanswers.correct_pair_answer_id AS correct_pair FROM connectquestionsanswers
-JOIN studentconnectquestionsanswers ON studentconnectquestionsanswers.answer_id = connectquestionsanswers.answer_id
+SELECT student_id, connectquestionsanswers.question_id, connectquestionsanswers.answer_id,
+studentconnectquestionsanswers.pair_answer_id AS student_pair_choice,
+connectquestionsanswers.correct_pair_answer_id AS correct_pair 
+FROM connectquestionsanswers
+JOIN studentconnectquestionsanswers
+ON studentconnectquestionsanswers.answer_id = connectquestionsanswers.answer_id
 WHERE connectquestionsanswers.question_id = 14 AND student_id = 8
 ```
 
