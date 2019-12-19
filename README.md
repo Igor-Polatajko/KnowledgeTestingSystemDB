@@ -73,7 +73,7 @@ test_id | topic_title
 6 |	JMX tools
 
 
-##### 5. Select all questions for the test (id 2)
+###### 5. Select all questions for the test (id 2)
 ```sql
 SELECT question_id, content, question_type FROM questions WHERE test_id = 2
 ```
@@ -86,7 +86,7 @@ question_id | content | question_type
 14 |	Connect commands of one type |	CONNECT
 
 
-##### 6. Select all answers for the test question (id 13)
+###### 6. Select all answers for the test question (id 13)
 ```sql
 SELECT answer_id, answer_content, is_right FROM answers WHERE question_id = 13
 ```
@@ -98,7 +98,7 @@ answer_id | answer_content | is_right
 81 |	DQL |	0
 
 
-##### 7. Select all answers for the connection type question (id 14)
+###### 7. Select all answers for the connection type question (id 14)
 **Left side answers**
 ```sql
 SELECT answer_id, answer_content FROM answers WHERE answer_id IN
@@ -124,7 +124,7 @@ answer_id | answer_content
 87 |	ALTER
 
 
-##### 8. Check student answer for open type question (id 2):
+###### 8. Check student answer for open type question (id 2):
 ```sql
 SELECT studentopenquestionanswers.question_id, answer AS student_answer, answer_content AS correct_answer FROM studentopenquestionanswers 
 JOIN answers ON studentopenquestionanswers.question_id = answers.question_id
@@ -136,7 +136,7 @@ question_id | student_answer | correct_answer
 2 |	Structured Query Language |	Structured Query Language
 
 
-##### 9. Check student answer for test type question (id 13):
+###### 9. Check student answer for test type question (id 13):
 ```sql
 SELECT studenttestanswers.question_id, studenttestanswers.answer_id AS student_answer, answers.answer_id AS correct_answer FROM studenttestanswers 
 RIGHT JOIN answers ON studenttestanswers.question_id = answers.question_id
@@ -147,7 +147,7 @@ question_id | student_answer | correct_answer
 13 |	80 |	79
 
 
-##### 10. Check student answer for connect type question (id 14):
+###### 10. Check student answer for connect type question (id 14):
 ```sql
 SELECT connectquestionsanswers.answer_id, studentconnectquestionsanswers.pair_answer_id AS student_pair_choice,
 connectquestionsanswers.correct_pair_answer_id AS correct_pair FROM connectquestionsanswers
@@ -160,3 +160,38 @@ answer_id | student_pair_choice |correct_pair_answer_id
 82 |	83 |	83
 84 |	87 |	85
 86 |	85 |	87
+
+
+### Triggers
+**DB contains two triggers to synchronize tables StudentsCourses and StudentsTests**
+
+#### After insert
+```sql
+DELIMITER ;;
+ CREATE TRIGGER `StudentsCourses_AFTER_INSERT` AFTER INSERT ON `studentscourses` FOR EACH ROW BEGIN
+	INSERT INTO StudentsTests(student_id, test_id, completed_date) (SELECT NEW.student_id, test_id, NULL FROM Tests WHERE course_id = NEW.course_id);
+END ;;
+DELIMITER ;
+```
+
+#### After delete
+```sql
+DELIMITER ;;
+CREATE TRIGGER `StudentsCourses_AFTER_DELETE` AFTER DELETE ON `studentscourses` FOR EACH ROW BEGIN
+	DELETE FROM StudentsTests WHERE test_id IN (SELECT test_id FROM Tests AS t WHERE t.course_id = OLD.course_id);
+END ;;
+DELIMITER ;
+```
+
+#### List triggers
+```sql
+SHOW TRIGGERS
+```
+Trigger | Event | Table | Statement | Timing | Created | sql_mode | Definer | character_set_client | collation_connection | Database Collation
+|---|---|---|---|---|---|---|---|---|---|---|
+'StudentsCourses_AFTER_INSERT | INSERT | studentscourses | BEGIN <br/>	INSERT INTO StudentsTests(student_id, test_id, completed_date) (SELECT NEW.student_id, test_id, NULL FROM Tests WHERE course_id = NEW.course_id);<br/>END | AFTER | 2019-12-19 11:40:01.80 | STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION | root@localhost | utf8mb4 | utf8mb4_0900_ai_ci | utf8mb4_0900_ai_ci'
+'StudentsCourses_AFTER_DELETE | DELETE | studentscourses | BEGIN <br/>	DELETE FROM StudentsTests WHERE test_id IN (SELECT test_id FROM Tests AS t WHERE t.course_id = OLD.course_id);<br/>END | AFTER | 2019-12-19 11:40:01.82 | STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION | root@localhost | utf8mb4 | utf8mb4_0900_ai_ci | utf8mb4_0900_ai_ci'
+
+
+
+

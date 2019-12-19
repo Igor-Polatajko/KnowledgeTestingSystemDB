@@ -1,13 +1,15 @@
--- MySQL dump 10.13  Distrib 8.0.16, for Win64 (x86_64)
+CREATE DATABASE  IF NOT EXISTS `knowledgetestingsystemdb123` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
+USE `knowledgetestingsystemdb123`;
+-- MySQL dump 10.13  Distrib 8.0.17, for Win64 (x86_64)
 --
--- Host: localhost    Database: knowledgetestingdb
+-- Host: localhost    Database: knowledgetestingsystemdb
 -- ------------------------------------------------------
--- Server version	8.0.18
+-- Server version	8.0.16
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
- SET NAMES utf8 ;
+/*!50503 SET NAMES utf8 */;
 /*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
 /*!40103 SET TIME_ZONE='+00:00' */;
 /*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
@@ -21,7 +23,7 @@
 
 DROP TABLE IF EXISTS `answers`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `answers` (
   `answer_id` int(32) NOT NULL AUTO_INCREMENT,
   `question_id` int(32) NOT NULL,
@@ -49,7 +51,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `connectquestionsanswers`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `connectquestionsanswers` (
   `connect_question_answer_id` int(32) NOT NULL AUTO_INCREMENT,
   `answer_id` int(32) NOT NULL,
@@ -81,7 +83,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `courses`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `courses` (
   `course_id` int(32) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
@@ -106,7 +108,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `groups`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `groups` (
   `group_id` int(32) NOT NULL AUTO_INCREMENT,
   `moderator_id` int(32) DEFAULT NULL,
@@ -133,7 +135,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `moderators`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `moderators` (
   `moderator_id` int(32) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
@@ -158,7 +160,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `questions`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `questions` (
   `question_id` int(32) NOT NULL AUTO_INCREMENT,
   `test_id` int(32) NOT NULL,
@@ -187,7 +189,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `studentconnectquestionsanswers`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `studentconnectquestionsanswers` (
   `student_connect_questions_answer_id` int(32) NOT NULL AUTO_INCREMENT,
   `student_id` int(32) NOT NULL,
@@ -223,7 +225,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `studentopenquestionanswers`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `studentopenquestionanswers` (
   `result_id` int(32) NOT NULL AUTO_INCREMENT,
   `question_id` int(32) NOT NULL,
@@ -254,7 +256,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `students`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `students` (
   `student_id` int(32) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
@@ -282,7 +284,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `studentscourses`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `studentscourses` (
   `student_id` int(32) NOT NULL,
   `course_id` int(32) NOT NULL,
@@ -303,6 +305,32 @@ LOCK TABLES `studentscourses` WRITE;
 INSERT INTO `studentscourses` VALUES (1,8,NULL),(3,5,NULL),(6,6,NULL),(12,7,NULL),(2,8,NULL),(2,5,NULL),(4,7,NULL),(5,7,NULL),(5,8,NULL),(6,7,NULL),(7,7,NULL),(8,5,NULL),(8,8,NULL),(11,7,NULL),(12,8,NULL),(8,6,NULL);
 /*!40000 ALTER TABLE `studentscourses` ENABLE KEYS */;
 UNLOCK TABLES;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
+
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
+
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 
 --
 -- Table structure for table `studentstests`
@@ -310,7 +338,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `studentstests`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `studentstests` (
   `students_test_id` int(32) NOT NULL AUTO_INCREMENT,
   `student_id` int(32) NOT NULL,
@@ -340,7 +368,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `studenttestanswers`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `studenttestanswers` (
   `result_id` int(32) NOT NULL AUTO_INCREMENT,
   `student_id` int(32) NOT NULL,
@@ -373,7 +401,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `studenttruefalseanswers`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `studenttruefalseanswers` (
   `student_true_false_answer_id` int(32) NOT NULL AUTO_INCREMENT,
   `student_id` int(32) NOT NULL,
@@ -404,7 +432,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `tests`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `tests` (
   `test_id` int(32) NOT NULL AUTO_INCREMENT,
   `course_id` int(32) NOT NULL,
@@ -424,6 +452,22 @@ LOCK TABLES `tests` WRITE;
 INSERT INTO `tests` VALUES (1,5,'What is db?'),(2,5,'Query language'),(3,5,'Relations'),(4,6,'Connection to sockets'),(5,6,'Connection to DB'),(6,6,'JMX tools'),(7,7,'Spring MVC essentials'),(8,7,'Web architecture'),(9,7,'DropWizard'),(10,8,'gRPC, HTTP/2'),(11,8,'Apache Kafka');
 /*!40000 ALTER TABLE `tests` ENABLE KEYS */;
 UNLOCK TABLES;
+
+
+DELIMITER ;;
+CREATE TRIGGER `StudentsCourses_AFTER_INSERT` AFTER INSERT ON `studentscourses` FOR EACH ROW BEGIN
+	INSERT INTO StudentsTests(student_id, test_id, completed_date) (SELECT NEW.student_id, test_id, NULL FROM Tests WHERE course_id = NEW.course_id);
+END ;;
+DELIMITER ;
+
+DELIMITER ;;
+CREATE TRIGGER `StudentsCourses_AFTER_DELETE` AFTER DELETE ON `studentscourses` FOR EACH ROW BEGIN
+	DELETE FROM StudentsTests WHERE test_id IN (SELECT test_id FROM Tests AS t WHERE t.course_id = OLD.course_id);
+END ;;
+DELIMITER ;
+--
+-- Dumping routines for database 'knowledgetestingsystemdb'
+--
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -434,4 +478,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-12-19  3:08:21
+-- Dump completed on 2019-12-19 11:44:15

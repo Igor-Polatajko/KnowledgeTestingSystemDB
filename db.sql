@@ -283,6 +283,21 @@ CREATE TABLE `tests` (
   KEY `course_id_idx` (`course_id`),
   CONSTRAINT `course_id` FOREIGN KEY (`course_id`) REFERENCES `courses` (`course_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
+
+
+DELIMITER ;;
+ CREATE TRIGGER `StudentsCourses_AFTER_INSERT` AFTER INSERT ON `studentscourses` FOR EACH ROW BEGIN
+  INSERT INTO StudentsTests(student_id, test_id, completed_date) (SELECT NEW.student_id, test_id, NULL FROM Tests WHERE course_id = NEW.course_id);
+END ;;
+DELIMITER ;
+
+DELIMITER ;;
+CREATE TRIGGER `StudentsCourses_AFTER_DELETE` AFTER DELETE ON `studentscourses` FOR EACH ROW BEGIN
+  DELETE FROM StudentsTests WHERE test_id IN (SELECT test_id FROM Tests AS t WHERE t.course_id = OLD.course_id);
+END ;;
+DELIMITER ;
+
+
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
