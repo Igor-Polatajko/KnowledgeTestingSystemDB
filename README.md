@@ -23,6 +23,7 @@ student_id | name | surname
 11 |	Alice |	Liddell
 12 |	Dale |	Smith
 
+
 ###### 2. Select all courses to which particular student (id 8) is enrolled:
 ```sql
 SELECT courses.course_id, name FROM courses 
@@ -37,6 +38,7 @@ course_id | name
 8 |	Advanced Java for web
 6 |	Java advanced
 
+
 ###### 3. Select all tests for the course (id 7):
 ```sql
 SELECT test_id, topic_title FROM tests
@@ -48,6 +50,7 @@ test_id | topic_title
 7 |	Spring MVC essentials
 8 |	Web architecture
 9 |	DropWizard
+
 
 ###### 4. Select all not completed tests for the student (id 8):
 ```sql
@@ -69,6 +72,7 @@ test_id | topic_title
 5 |	Connection to DB
 6 |	JMX tools
 
+
 ##### 5. Select all questions for the test (id 2)
 ```sql
 SELECT question_id, content, question_type FROM questions WHERE test_id = 2
@@ -80,6 +84,7 @@ question_id | content | question_type
 3 |	What CRUD stands for? |	OPEN
 13 |	INSERT command belongs to |	TEST
 14 |	Connect commands of one type |	CONNECT
+
 
 ##### 6. Select all answers for the test question (id 13)
 ```sql
@@ -94,12 +99,43 @@ answer_id | answer_content | is_right
 
 
 ##### 7. Select all answers for the connection type question (id 14)
+**Left side answers**
 ```sql
-SELECT answer_id, answer_content, is_right FROM answers WHERE question_id = 14
+SELECT answer_id, answer_content FROM answers WHERE question_id = 14
+AND answer_id IN
+(SELECT answer_id FROM connectquestionsanswers)
 ```
-answer_id | answer_content | is_right
+
+answer_id | answer_content
+|---|---|
+82 |	INSERT
+84 |	COMMIT
+86 |	CREATE
+
+**Right side answers**
+```sql
+SELECT answer_id, answer_content FROM answers WHERE question_id = 14
+AND answer_id IN
+(SELECT correct_pair_answer_id FROM connectquestionsanswers)
+```
+
+answer_id | answer_content
+|---|---|
+83 |	UPDATE
+85 |	ROLL BACK
+87 |	ALTER
+
+
+##### 8. Check student answer for open type question (id 2):
+```sql
+SELECT studentopenquestionanswers.question_id, answer AS student_answer, answer_content AS correct_answer FROM studentopenquestionanswers 
+JOIN answers ON studentopenquestionanswers.question_id = answers.question_id
+WHERE studentopenquestionanswers.question_id = 2
+```
+
+question_id | student_answer | correct_answer
 |---|---|---|
-78 |	DDL |	0
-79 |	DML |	1
-80 |	DCL |	0
-81 |	DQL |	0
+2 |	Structured Query Language |	Structured Query Language
+
+##### 8. Check student answer for test type question (id 13):
+
