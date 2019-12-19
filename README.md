@@ -70,10 +70,10 @@ test_id | topic_title
 ###### 5. Select all not completed tests for the student (id 8):
 ```sql
 SELECT tests.test_id, topic_title FROM tests
-INNER JOIN studentstests
+JOIN studentstests
 ON tests.test_id = studentstests.test_id
 WHERE student_id = 8
-AND last_completed_date IS NULL
+AND (SELECT COUNT(*) FROM testattempts WHERE testattempts.students_test_id = studentstests.students_test_id) = 0
 ```
 
 test_id | topic_title
@@ -168,7 +168,7 @@ student_id | question_id | student_answer | correct_answer
 SELECT student_id, connectquestionsanswers.question_id, connectquestionsanswers.answer_id, studentconnectquestionsanswers.pair_answer_id AS student_pair_choice,
 connectquestionsanswers.correct_pair_answer_id AS correct_pair FROM connectquestionsanswers
 JOIN studentconnectquestionsanswers ON studentconnectquestionsanswers.answer_id = connectquestionsanswers.answer_id
-WHERE connectquestionsanswers.question_id = 14  AND student_id = 8
+WHERE connectquestionsanswers.question_id = 14 AND student_id = 8
 ```
 
 student_id | question_id | answer_id | student_pair_choice |correct_pair_answer_id
@@ -216,6 +216,19 @@ student_id | question_id | student_answer | correct_answer | submitted_time
 5 |	10 |	TRUE |	TRUE |	2019-12-19 16:27:51.000000
 5 |	10 |	FALSE |	TRUE |	2019-12-20 16:28:43.000000
 
+###### 14. Get number of attempts used by some student (id 8) for the test (id 2):
+```sql
+SELECT student_id, test_id, COUNT(*) AS number_of_attempts FROM testattempts
+JOIN studentstests 
+ON testattempts.students_test_id = studentstests.students_test_id
+WHERE student_id = 8 AND test_id = 2
+```
+
+student_id | test_id | number_of_attempts
+|---|---|---|
+8 | 2 | 1
+
+
 ### Triggers
 **DB contains two triggers to synchronize tables StudentsCourses and StudentsTests**
 
@@ -223,7 +236,7 @@ student_id | question_id | student_answer | correct_answer | submitted_time
 ```sql
 DELIMITER ;;
  CREATE TRIGGER `StudentsCourses_AFTER_INSERT` AFTER INSERT ON `studentscourses` FOR EACH ROW BEGIN
-	INSERT INTO StudentsTests(student_id, test_id, last_completed_date) (SELECT NEW.student_id, test_id, NULL FROM Tests WHERE course_id = NEW.course_id);
+	INSERT INTO StudentsTests(student_id, test_id) (SELECT NEW.student_id, test_id FROM Tests WHERE course_id = NEW.course_id);
 END ;;
 DELIMITER ;
 ```
@@ -243,7 +256,7 @@ SHOW TRIGGERS
 ```
 Trigger | Event | Table | Statement | Timing | Created | sql_mode | Definer | character_set_client | collation_connection | Database Collation
 |---|---|---|---|---|---|---|---|---|---|---|
-'StudentsCourses_AFTER_INSERT | INSERT | studentscourses | BEGIN <br/>	INSERT INTO StudentsTests(student_id, test_id, last_completed_date) (SELECT NEW.student_id, test_id, NULL FROM Tests WHERE course_id = NEW.course_id);<br/>END | AFTER | 2019-12-19 11:40:01.80 | STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION | root@localhost | utf8mb4 | utf8mb4_0900_ai_ci | utf8mb4_0900_ai_ci'
+'StudentsCourses_AFTER_INSERT | INSERT | studentscourses | BEGIN <br/>	INSERT INTO StudentsTests(student_id, test_id) (SELECT NEW.student_id, test_id FROM Tests WHERE course_id = NEW.course_id);<br/>END | AFTER | 2019-12-19 11:40:01.80 | STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION | root@localhost | utf8mb4 | utf8mb4_0900_ai_ci | utf8mb4_0900_ai_ci'
 'StudentsCourses_AFTER_DELETE | DELETE | studentscourses | BEGIN <br/>	DELETE FROM StudentsTests WHERE test_id IN (SELECT test_id FROM Tests AS t WHERE t.course_id = OLD.course_id);<br/>END | AFTER | 2019-12-19 11:40:01.82 | STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION | root@localhost | utf8mb4 | utf8mb4_0900_ai_ci | utf8mb4_0900_ai_ci'
 
 

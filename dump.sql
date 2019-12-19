@@ -1,5 +1,5 @@
-CREATE DATABASE  IF NOT EXISTS `knowledgetestingsystemdb1` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
-USE `knowledgetestingsystemdb1`;
+CREATE DATABASE  IF NOT EXISTS `knowledgetestingsystemdb` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
+USE `knowledgetestingsystemdb`;
 -- MySQL dump 10.13  Distrib 8.0.17, for Win64 (x86_64)
 --
 -- Host: localhost    Database: knowledgetestingsystemdb
@@ -179,7 +179,7 @@ CREATE TABLE `questions` (
 
 LOCK TABLES `questions` WRITE;
 /*!40000 ALTER TABLE `questions` DISABLE KEYS */;
-INSERT INTO `questions` VALUES (1,1,'Where databases store data?','TEST'),(2,2,'What SQL stands for?','OPEN'),(3,2,'What CRUD stands for?','OPEN'),(4,3,'Check existing relations types','TEST'),(5,4,'Enter \"localhost\" IP address (e.g. 100.0.0.0)','OPEN'),(6,5,'What JDBC stands for?','TEST'),(7,6,'What JMX stands for?','OPEN'),(8,7,'Connect annotations to appropriate layers of application','CONNECT'),(9,8,'Should layered architecture always have 3 tiers?','TRUE_FALSE'),(10,9,'Do DropWizard always use Jetty as embedded server?','TRUE_FALSE'),(11,10,'What RPC stands for?','OPEN'),(12,11,'What is Kafka','TEST'),(13,2,'INSERT command belongs to','TEST'),(14,2,'Connect commands of one type','CONNECT');
+INSERT INTO `questions` VALUES (1,1,'Where databases store data?','TEST'),(2,2,'What SQL stands for?','OPEN'),(3,2,'What CRUD stands for?','OPEN'),(4,3,'Check existing relations types','TEST'),(5,4,'Enter \"localhost\" IP address (e.g. 100.0.0.0)','OPEN'),(6,5,'What JDBC stands for?','TEST'),(7,6,'What JMX stands for?','OPEN'),(8,7,'Connect annotations to appropriate layers of application','CONNECT'),(9,8,'Can layered architecture have more or less than 3 tiers?','TRUE_FALSE'),(10,9,'Do DropWizard always use Jetty as embedded server?','TRUE_FALSE'),(11,10,'What RPC stands for?','OPEN'),(12,11,'What is Kafka','TEST'),(13,2,'INSERT command belongs to','TEST'),(14,2,'Connect commands of one type','CONNECT');
 /*!40000 ALTER TABLE `questions` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -313,11 +313,6 @@ UNLOCK TABLES;
 /*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
-DELIMITER ;;
-/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER `StudentsCourses_AFTER_INSERT` AFTER INSERT ON `studentscourses` FOR EACH ROW BEGIN
-	INSERT INTO StudentsTests(student_id, test_id, last_completed_date) (SELECT NEW.student_id, test_id, NULL FROM Tests WHERE course_id = NEW.course_id);
-END */;;
-DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
@@ -347,7 +342,6 @@ CREATE TABLE `studentstests` (
   `students_test_id` int(32) NOT NULL AUTO_INCREMENT,
   `student_id` int(32) NOT NULL,
   `test_id` int(32) NOT NULL,
-  `last_completed_date` timestamp(6) NULL DEFAULT NULL,
   `max_attempts_allowed` int(11) DEFAULT '3',
   PRIMARY KEY (`students_test_id`),
   KEY `student_id_idx` (`student_id`),
@@ -363,7 +357,7 @@ CREATE TABLE `studentstests` (
 
 LOCK TABLES `studentstests` WRITE;
 /*!40000 ALTER TABLE `studentstests` DISABLE KEYS */;
-INSERT INTO `studentstests` VALUES (1,1,10,NULL,3),(2,1,11,NULL,3),(4,3,1,NULL,3),(5,3,2,NULL,3),(6,3,3,NULL,3),(7,6,4,NULL,3),(8,6,5,NULL,3),(9,6,6,NULL,3),(10,12,7,NULL,3),(11,12,8,NULL,3),(12,12,9,NULL,3),(14,1,8,NULL,3),(15,2,10,NULL,3),(16,2,11,NULL,3),(18,2,1,NULL,3),(19,2,2,NULL,3),(20,2,3,NULL,3),(21,4,7,NULL,3),(22,4,8,NULL,3),(23,4,9,NULL,3),(24,5,7,NULL,3),(25,5,8,NULL,3),(26,5,9,NULL,3),(27,5,10,NULL,3),(28,5,11,NULL,3),(30,6,7,NULL,3),(31,6,8,NULL,3),(32,6,9,NULL,3),(33,7,7,NULL,3),(34,7,8,NULL,3),(35,7,9,NULL,3),(36,8,1,NULL,3),(37,8,2,NULL,3),(38,8,3,NULL,3),(39,8,10,NULL,3),(40,8,11,NULL,3),(42,11,7,NULL,3),(43,11,8,NULL,3),(44,11,9,NULL,3),(45,12,10,NULL,3),(46,12,11,NULL,3),(48,8,4,NULL,3),(49,8,5,NULL,3),(50,8,6,NULL,3);
+INSERT INTO `studentstests` VALUES (1,1,10,3),(2,1,11,3),(4,3,1,3),(5,3,2,3),(6,3,3,3),(7,6,4,3),(8,6,5,3),(9,6,6,3),(10,12,7,3),(11,12,8,3),(12,12,9,3),(14,1,8,3),(15,2,10,3),(16,2,11,3),(18,2,1,3),(19,2,2,3),(20,2,3,3),(21,4,7,3),(22,4,8,3),(23,4,9,3),(24,5,7,3),(25,5,8,3),(26,5,9,3),(27,5,10,3),(28,5,11,3),(30,6,7,3),(31,6,8,3),(32,6,9,3),(33,7,7,3),(34,7,8,3),(35,7,9,3),(36,8,1,3),(37,8,2,3),(38,8,3,3),(39,8,10,3),(40,8,11,3),(42,11,7,3),(43,11,8,3),(44,11,9,3),(45,12,10,3),(46,12,11,3),(48,8,4,3),(49,8,5,3),(50,8,6,3);
 /*!40000 ALTER TABLE `studentstests` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -458,10 +452,35 @@ INSERT INTO `tests` VALUES (1,5,'What is db?'),(2,5,'Query language'),(3,5,'Rela
 /*!40000 ALTER TABLE `tests` ENABLE KEYS */;
 UNLOCK TABLES;
 
+-- -----------------------------------------------------
+-- Table `knowledgetestingsystemdb`.`TestAttemps`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `knowledgetestingsystemdb`.`TestAttempts` (
+  `test_attempt_id` INT(32) NOT NULL AUTO_INCREMENT,
+  `students_test_id` INT(32) NOT NULL,
+  `submitted_time` TIMESTAMP(6) NOT NULL,
+  PRIMARY KEY (`test_attempt_id`),
+  INDEX `students_test_id_idx` (`students_test_id` ASC) VISIBLE,
+  CONSTRAINT `students_test_id`
+    FOREIGN KEY (`students_test_id`)
+    REFERENCES `knowledgetestingsystemdb`.`StudentsTests` (`students_test_id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+--
+-- Dumping data for table `testattempts`
+--
+
+LOCK TABLES `testattempts` WRITE;
+/*!40000 ALTER TABLE `testattempts` DISABLE KEYS */;
+INSERT INTO `testattempts`(students_test_id, submitted_time) VALUES(37, NOW());
+/*!40000 ALTER TABLE `testattempts` ENABLE KEYS */;
+UNLOCK TABLES;
 
 DELIMITER ;;
  CREATE TRIGGER `StudentsCourses_AFTER_INSERT` AFTER INSERT ON `studentscourses` FOR EACH ROW BEGIN
-  INSERT INTO StudentsTests(student_id, test_id, last_completed_date) (SELECT NEW.student_id, test_id, NULL FROM Tests WHERE course_id = NEW.course_id);
+  INSERT INTO StudentsTests(student_id, test_id) (SELECT NEW.student_id, test_id FROM Tests WHERE course_id = NEW.course_id);
 END ;;
 DELIMITER ;
 

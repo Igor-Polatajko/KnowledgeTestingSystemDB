@@ -2,7 +2,7 @@ CREATE DATABASE  IF NOT EXISTS `knowledgetestingsystemdb` /*!40100 DEFAULT CHARA
 USE `knowledgetestingsystemdb`;
 -- MySQL dump 10.13  Distrib 8.0.16, for Win64 (x86_64)
 --
--- Host: localhost    Database: knowledgetestingdb
+-- Host: localhost    Database: knowledgetestingsystemdb
 -- ------------------------------------------------------
 -- Server version 8.0.18
 
@@ -218,7 +218,6 @@ CREATE TABLE `studentstests` (
   `student_id` int(32) NOT NULL,
   `test_id` int(32) NOT NULL,
   `max_attempts_allowed` INT NULL DEFAULT 3,
-  `last_completed_date` timestamp(6) DEFAULT NULL,
   PRIMARY KEY (`students_test_id`),
   KEY `student_id_idx` (`student_id`),
   KEY `test_id_idx` (`test_id`),
@@ -287,10 +286,26 @@ CREATE TABLE `tests` (
   CONSTRAINT `course_id` FOREIGN KEY (`course_id`) REFERENCES `courses` (`course_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
 
+-- -----------------------------------------------------
+-- Table `knowledgetestingsystemdb`.`TestAttemps`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `knowledgetestingsystemdb`.`TestAttempts` (
+  `test_attempt_id` INT(32) NOT NULL AUTO_INCREMENT,
+  `students_test_id` INT(32) NOT NULL,
+  `submitted_time` TIMESTAMP(6) NOT NULL,
+  PRIMARY KEY (`test_attempt_id`),
+  INDEX `students_test_id_idx` (`students_test_id` ASC) VISIBLE,
+  CONSTRAINT `students_test_id`
+    FOREIGN KEY (`students_test_id`)
+    REFERENCES `knowledgetestingsystemdb`.`StudentsTests` (`students_test_id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
 
 DELIMITER ;;
  CREATE TRIGGER `StudentsCourses_AFTER_INSERT` AFTER INSERT ON `studentscourses` FOR EACH ROW BEGIN
-  INSERT INTO StudentsTests(student_id, test_id, last_completed_date) (SELECT NEW.student_id, test_id, NULL FROM Tests WHERE course_id = NEW.course_id);
+  INSERT INTO StudentsTests(student_id, test_id) (SELECT NEW.student_id, test_id FROM Tests WHERE course_id = NEW.course_id);
 END ;;
 DELIMITER ;
 
