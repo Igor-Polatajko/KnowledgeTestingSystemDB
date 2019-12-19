@@ -38,8 +38,23 @@ course_id | name
 8 |	Advanced Java for web
 6 |	Java advanced
 
+###### 3. Select all students that should pass particular test (id 3)
+```sql
+SELECT students.student_id, name, surname FROM students
+JOIN studentstests 
+ON students.student_id = studentstests.student_id
+WHERE test_id = 3
+```
 
-###### 3. Select all tests for the course (id 7):
+student_id | name | surname
+|---|---|---|
+3 | John | Brain
+2 | Ed | Miller
+8 | Antony | Joshua
+
+
+
+###### 4. Select all tests for the course (id 7):
 ```sql
 SELECT test_id, topic_title FROM tests
 WHERE course_id = 7
@@ -52,13 +67,13 @@ test_id | topic_title
 9 |	DropWizard
 
 
-###### 4. Select all not completed tests for the student (id 8):
+###### 5. Select all not completed tests for the student (id 8):
 ```sql
 SELECT tests.test_id, topic_title FROM tests
 INNER JOIN studentstests
 ON tests.test_id = studentstests.test_id
 WHERE student_id = 8
-AND completed_date IS NULL
+AND last_completed_date IS NULL
 ```
 
 test_id | topic_title
@@ -73,7 +88,7 @@ test_id | topic_title
 6 |	JMX tools
 
 
-###### 5. Select all questions for the test (id 2)
+###### 6. Select all questions for the test (id 2)
 ```sql
 SELECT question_id, content, question_type FROM questions WHERE test_id = 2
 ```
@@ -86,7 +101,7 @@ question_id | content | question_type
 14 |	Connect commands of one type |	CONNECT
 
 
-###### 6. Select all answers for the test question (id 13)
+###### 7. Select all answers for the test question (id 13)
 ```sql
 SELECT answer_id, answer_content, is_right FROM answers WHERE question_id = 13
 ```
@@ -98,7 +113,7 @@ answer_id | answer_content | is_right
 81 |	DQL |	0
 
 
-###### 7. Select all answers for the connection type question (id 14)
+###### 8. Select all answers for the connection type question (id 14)
 **Left side answers**
 ```sql
 SELECT answer_id, answer_content FROM answers WHERE answer_id IN
@@ -124,7 +139,7 @@ answer_id | answer_content
 87 |	ALTER
 
 
-###### 8. Check student's (id 3) answer for open type question (id 2):
+###### 9. Check student's (id 3) answer for open type question (id 2):
 ```sql
 SELECT student_id, studentopenquestionanswers.question_id, answer AS student_answer, answer_content AS correct_answer
 FROM studentopenquestionanswers 
@@ -137,7 +152,7 @@ student_id | question_id | student_answer | correct_answer
 3 | 2 |	Structured Query Language |	Structured Query Language
 
 
-###### 9. Check student's (id 8) answer for test type question (id 13):
+###### 10. Check student's (id 8) answer for test type question (id 13):
 ```sql
 SELECT student_id, studenttestanswers.question_id, studenttestanswers.answer_id AS student_answer, answers.answer_id AS correct_answer FROM studenttestanswers 
 RIGHT JOIN answers ON studenttestanswers.question_id = answers.question_id
@@ -148,7 +163,7 @@ student_id | question_id | student_answer | correct_answer
 8 | 13 |	80 |	79
 
 
-###### 10. Check student's (id 8) answer for connect type question (id 14):
+###### 11. Check student's (id 8) answer for connect type question (id 14):
 ```sql
 SELECT student_id, connectquestionsanswers.question_id, connectquestionsanswers.answer_id, studentconnectquestionsanswers.pair_answer_id AS student_pair_choice,
 connectquestionsanswers.correct_pair_answer_id AS correct_pair FROM connectquestionsanswers
@@ -163,7 +178,7 @@ student_id | question_id | answer_id | student_pair_choice |correct_pair_answer_
 8 | 14 | 86 |	85 |	87
 
 
-###### 11. Check student's (id 1) answer for true-false type question (id 9):
+###### 12. Check student's (id 1) answer for true-false type question (id 9):
 ```sql
 SELECT student_id, studenttruefalseanswers.question_id,
 CASE WHEN studenttruefalseanswers.answer = 1 THEN 
@@ -182,7 +197,7 @@ student_id | question_id | student_answer | correct_answer
 1 | 9 |	TRUE |	TRUE
 
 
-###### 12. Check student's (id 1) answer for true-false type question (id 9) - multiple student answers:
+###### 13. Check student's (id 1) answer for true-false type question (id 9) - multiple student answers:
 ```sql
 SELECT student_id, studenttruefalseanswers.question_id,
 CASE WHEN studenttruefalseanswers.answer = 1 THEN 
@@ -208,7 +223,7 @@ student_id | question_id | student_answer | correct_answer | submitted_time
 ```sql
 DELIMITER ;;
  CREATE TRIGGER `StudentsCourses_AFTER_INSERT` AFTER INSERT ON `studentscourses` FOR EACH ROW BEGIN
-	INSERT INTO StudentsTests(student_id, test_id, completed_date) (SELECT NEW.student_id, test_id, NULL FROM Tests WHERE course_id = NEW.course_id);
+	INSERT INTO StudentsTests(student_id, test_id, last_completed_date) (SELECT NEW.student_id, test_id, NULL FROM Tests WHERE course_id = NEW.course_id);
 END ;;
 DELIMITER ;
 ```
@@ -228,7 +243,7 @@ SHOW TRIGGERS
 ```
 Trigger | Event | Table | Statement | Timing | Created | sql_mode | Definer | character_set_client | collation_connection | Database Collation
 |---|---|---|---|---|---|---|---|---|---|---|
-'StudentsCourses_AFTER_INSERT | INSERT | studentscourses | BEGIN <br/>	INSERT INTO StudentsTests(student_id, test_id, completed_date) (SELECT NEW.student_id, test_id, NULL FROM Tests WHERE course_id = NEW.course_id);<br/>END | AFTER | 2019-12-19 11:40:01.80 | STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION | root@localhost | utf8mb4 | utf8mb4_0900_ai_ci | utf8mb4_0900_ai_ci'
+'StudentsCourses_AFTER_INSERT | INSERT | studentscourses | BEGIN <br/>	INSERT INTO StudentsTests(student_id, test_id, last_completed_date) (SELECT NEW.student_id, test_id, NULL FROM Tests WHERE course_id = NEW.course_id);<br/>END | AFTER | 2019-12-19 11:40:01.80 | STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION | root@localhost | utf8mb4 | utf8mb4_0900_ai_ci | utf8mb4_0900_ai_ci'
 'StudentsCourses_AFTER_DELETE | DELETE | studentscourses | BEGIN <br/>	DELETE FROM StudentsTests WHERE test_id IN (SELECT test_id FROM Tests AS t WHERE t.course_id = OLD.course_id);<br/>END | AFTER | 2019-12-19 11:40:01.82 | STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION | root@localhost | utf8mb4 | utf8mb4_0900_ai_ci | utf8mb4_0900_ai_ci'
 
 

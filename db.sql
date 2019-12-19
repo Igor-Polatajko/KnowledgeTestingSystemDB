@@ -1,3 +1,5 @@
+CREATE DATABASE  IF NOT EXISTS `knowledgetestingsystemdb` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
+USE `knowledgetestingsystemdb`;
 -- MySQL dump 10.13  Distrib 8.0.16, for Win64 (x86_64)
 --
 -- Host: localhost    Database: knowledgetestingdb
@@ -288,7 +290,7 @@ CREATE TABLE `tests` (
 
 DELIMITER ;;
  CREATE TRIGGER `StudentsCourses_AFTER_INSERT` AFTER INSERT ON `studentscourses` FOR EACH ROW BEGIN
-  INSERT INTO StudentsTests(student_id, test_id, completed_date) (SELECT NEW.student_id, test_id, NULL FROM Tests WHERE course_id = NEW.course_id);
+  INSERT INTO StudentsTests(student_id, test_id, last_completed_date) (SELECT NEW.student_id, test_id, NULL FROM Tests WHERE course_id = NEW.course_id);
 END ;;
 DELIMITER ;
 
