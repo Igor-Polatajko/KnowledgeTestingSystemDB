@@ -2,7 +2,7 @@
 --
 -- Host: localhost    Database: knowledgetestingdb
 -- ------------------------------------------------------
--- Server version	8.0.18
+-- Server version 8.0.18
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -54,7 +54,7 @@ CREATE TABLE `connectquestionsanswers` (
   `connect_question_answer_id` int(32) NOT NULL AUTO_INCREMENT,
   `answer_id` int(32) NOT NULL,
   `correct_pair_answer_id` int(32) NOT NULL,
-  `question_id` int(32) DEFAULT NULL,
+  `question_id` int(32) NOT NULL,
   PRIMARY KEY (`connect_question_answer_id`),
   UNIQUE KEY `answer_id_UNIQUE` (`answer_id`),
   UNIQUE KEY `correct_pair_answer_id_UNIQUE` (`correct_pair_answer_id`),
@@ -194,7 +194,7 @@ CREATE TABLE `studentconnectquestionsanswers` (
   `answer_id` int(32) NOT NULL,
   `pair_answer_id` int(32) NOT NULL,
   `submited_time` timestamp(6) NOT NULL,
-  `question_id` int(32) DEFAULT NULL,
+  `question_id` int(32) NOT NULL,
   PRIMARY KEY (`student_connect_questions_answer_id`),
   UNIQUE KEY `pair_answer_id_UNIQUE` (`pair_answer_id`),
   UNIQUE KEY `answer_id_UNIQUE` (`answer_id`),
@@ -345,8 +345,8 @@ CREATE TABLE `studenttestanswers` (
   `result_id` int(32) NOT NULL AUTO_INCREMENT,
   `student_id` int(32) NOT NULL,
   `answer_id` int(32) NOT NULL,
+  `question_id` int(32) NOT NULL,
   `submited_time` timestamp(6) NOT NULL,
-  `question_id` int(32) DEFAULT NULL,
   PRIMARY KEY (`result_id`),
   KEY `student_id_idx` (`student_id`),
   KEY `answer_id_idx` (`answer_id`),
@@ -434,4 +434,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-12-19  2:33:58
+-- Dump completed on 2019-12-19  2:33:47
