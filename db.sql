@@ -181,10 +181,7 @@ CREATE TABLE `students` (
   `student_id` int(32) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
   `surname` varchar(255) NOT NULL,
-  `group_id` int(32) DEFAULT NULL,
-  PRIMARY KEY (`student_id`),
-  KEY `group_id_idx` (`group_id`),
-  CONSTRAINT `group_id` FOREIGN KEY (`group_id`) REFERENCES `groups` (`group_id`)
+  PRIMARY KEY (`student_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -302,6 +299,28 @@ CREATE TABLE IF NOT EXISTS `knowledgetestingsystemdb`.`TestAttempts` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
+
+-- -----------------------------------------------------
+-- Table `knowledgetestingsystemdb`.`StudentsGroups`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `KnowledgeTestingSystemDb`.`StudentsGroups` (
+  `students_groups_id` INT(32) NOT NULL,
+  `student_id` INT(32) NOT NULL,
+  `group_id` INT(32) NOT NULL,
+  PRIMARY KEY (`students_groups_id`),
+  INDEX `student_id_idx` (`student_id` ASC) VISIBLE,
+  INDEX `group_id_idx` (`group_id` ASC) VISIBLE,
+  CONSTRAINT `student_id5`
+    FOREIGN KEY (`student_id`)
+    REFERENCES `KnowledgeTestingSystemDb`.`Students` (`student_id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `group_id`
+    FOREIGN KEY (`group_id`)
+    REFERENCES `KnowledgeTestingSystemDb`.`Groups` (`group_id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
 
 DELIMITER ;;
  CREATE TRIGGER `StudentsCourses_AFTER_INSERT` AFTER INSERT ON `studentscourses` FOR EACH ROW BEGIN

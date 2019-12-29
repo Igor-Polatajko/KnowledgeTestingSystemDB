@@ -125,7 +125,7 @@ CREATE TABLE `groups` (
 
 LOCK TABLES `groups` WRITE;
 /*!40000 ALTER TABLE `groups` DISABLE KEYS */;
-INSERT INTO `groups` VALUES (4,NULL,'developers'),(5,NULL,'lifetime -learners');
+INSERT INTO `groups` VALUES (4,NULL,'developers'),(5,NULL,'lifetime-learners');
 /*!40000 ALTER TABLE `groups` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -261,10 +261,7 @@ CREATE TABLE `students` (
   `student_id` int(32) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
   `surname` varchar(255) NOT NULL,
-  `group_id` int(32) DEFAULT NULL,
-  PRIMARY KEY (`student_id`),
-  KEY `group_id_idx` (`group_id`),
-  CONSTRAINT `group_id` FOREIGN KEY (`group_id`) REFERENCES `groups` (`group_id`)
+  PRIMARY KEY (`student_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -274,7 +271,7 @@ CREATE TABLE `students` (
 
 LOCK TABLES `students` WRITE;
 /*!40000 ALTER TABLE `students` DISABLE KEYS */;
-INSERT INTO `students` VALUES (1,'Ihor','Polataiko',NULL),(2,'Ed','Miller',NULL),(3,'John','Brain',NULL),(4,'Martin','Fowler',NULL),(5,'Mary','Williams',NULL),(6,'Kate','Devis',NULL),(7,'Ann','Anderson',NULL),(8,'Antony','Joshua',NULL),(9,'Kate','Sierra',NULL),(10,'Alan','Brown',NULL),(11,'Alice','Liddell',NULL),(12,'Dale','Smith',NULL);
+INSERT INTO `students` VALUES (1,'Ihor','Polataiko'),(2,'Ed','Miller'),(3,'John','Brain'),(4,'Martin','Fowler'),(5,'Mary','Williams'),(6,'Kate','Devis'),(7,'Ann','Anderson'),(8,'Antony','Joshua'),(9,'Kate','Sierra'),(10,'Alan','Brown'),(11,'Alice','Liddell'),(12,'Dale','Smith');
 /*!40000 ALTER TABLE `students` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -488,6 +485,30 @@ INSERT INTO `tests` VALUES (1,5,'What is db?'),(2,5,'Query language'),(3,5,'Rela
 /*!40000 ALTER TABLE `tests` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+-- -----------------------------------------------------
+-- Table structure for table `StudentsGroups`
+-- -----------------------------------------------------
+
+DROP TABLE IF EXISTS `StudentsGroups`;
+CREATE TABLE `StudentsGroups` (
+  `students_groups_id` INT(32) NOT NULL,
+  `student_id` INT(32) NOT NULL,
+  `group_id` INT(32) NOT NULL,
+  PRIMARY KEY (`students_groups_id`),
+  INDEX `student_id_idx` (`student_id` ASC) VISIBLE,
+  INDEX `group_id_idx` (`group_id` ASC) VISIBLE,
+  CONSTRAINT `student_id5`
+    FOREIGN KEY (`student_id`)
+    REFERENCES `KnowledgeTestingSystemDb`.`Students` (`student_id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `group_id`
+    FOREIGN KEY (`group_id`)
+    REFERENCES `KnowledgeTestingSystemDb`.`Groups` (`group_id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
 
 DELIMITER ;;
  CREATE TRIGGER `StudentsCourses_AFTER_INSERT` AFTER INSERT ON `studentscourses` FOR EACH ROW BEGIN
